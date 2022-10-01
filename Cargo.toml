@@ -1,0 +1,58 @@
+[package]
+name = "timer-test"
+version = "0.1.0"
+authors = ["Frederick <frederick@vollbrecht.cc>"]
+edition = "2021"
+resolver = "2"
+
+[profile.release]
+opt-level = "s"
+
+[profile.dev]
+debug = true    # Symbols are nice and they don't increase the size on Flash
+opt-level = "z"
+
+[features]
+pio = ["esp-idf-sys/pio"]
+
+[dependencies]
+esp-idf-sys = { version = "0.31.9", features = ["binstart"] }
+embedded-hal = { version = "0.2", feature = "unproven" }
+embedded-svc = { version = "0.23", git = "https://github.com/esp-rs/embedded-svc", features = [
+    "nightly",
+    "experimental",
+] }
+esp-idf-svc = { git = "https://github.com/esp-rs/esp-idf-svc", features = [
+    "nightly",
+    "experimental",
+    "embassy-time-driver",
+    "embassy-time-isr-queue",
+], rev = "34dfee2a4f08692f415e965e4cd117034e6be56e" }
+
+esp-idf-hal = { version = "0.39", git = "https://github.com/esp-rs/esp-idf-hal", features = [
+    "edge-executor",
+    "embassy-sync",
+    "embassy-time",
+    "critical-section",
+] }
+edge-executor = { git = "https://github.com/ivmarkov/edge-executor" }
+
+embassy-sync = { version = "0.1", git = "https://github.com/ivmarkov/embassy", features = [
+    "std",
+] }
+embassy-futures = { version = "0.1", git = "https://github.com/ivmarkov/embassy", features = [
+    "defmt",
+] }
+embassy-time = { version = "0.1", git = "https://github.com/ivmarkov/embassy", features = [
+    "defmt",
+] }
+static_cell = { version = "1", git = "https://github.com/embassy-rs/static-cell" }
+heapless = "0.7.12"
+futures = { version = "0.3", features = ["async-await"] }
+
+#[patch.'https://github.com/esp-rs/esp-idf-svc']
+#esp-idf-svc = { path = "../esp-idf-svc" }
+
+[build-dependencies]
+embuild = "0.30"
+anyhow = "1"
