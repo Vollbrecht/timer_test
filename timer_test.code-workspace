@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../esp-idf-svc"
+		},
+		{
+			"path": "../esp-idf-hal"
+		}
+	],
+	"settings": {}
+}

@@ -1,22 +1,22 @@
 #![feature(type_alias_impl_trait)]
+
 use edge_executor::{Local, Task};
 use embassy_futures::select::{select, Either};
 use esp_idf_sys as _; // If using the `binstart` feature of `esp-idf-sys`, always keep this module imported
 use esp_idf_sys::EspError;
 
-use esp_idf_hal::executor::EspExecutor;
+use esp_idf_hal::task::executor::EspExecutor;
 use esp_idf_hal::gpio::{Input, InputPin, InterruptType, OutputPin, PinDriver};
 use esp_idf_hal::peripheral::Peripheral;
 use esp_idf_hal::peripherals::Peripherals;
 
-//se esp_idf_sys::EspError;
 use static_cell::StaticCell;
 
 mod notification;
 use notification::*;
 
 fn main() {
-    esp_idf_hal::cs::critical_section::link();
+    esp_idf_hal::task::critical_section::link();
     esp_idf_svc::timer::embassy_time::driver::link();
     esp_idf_svc::timer::embassy_time::queue::link();
     // Temporary. Will disappear once ESP-IDF 4.4 is released, but for now it is necessary to call this function once,
@@ -30,7 +30,7 @@ fn main() {
     let system = &*SYSTEM.init(System::new());
 
     let mut tasks = heapless::Vec::<Task<()>, 2>::new();
-    let mut executor = EspExecutor::<2, Local>::new();
+    let executor = EspExecutor::<2, Local>::new();
 
     executor
         .spawn_local_collect(
@@ -40,7 +40,7 @@ fn main() {
         )
         .unwrap();
 
-    executor.with_context(|exec, ctx| exec.run_tasks(ctx, || true, tasks));
+    executor.run_tasks(|| true, tasks);
 }
 
 pub struct System {

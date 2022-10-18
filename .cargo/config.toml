@@ -19,7 +19,8 @@ linker = "ldproxy"
 
 # Future - necessary for the experimental "native build" of esp-idf-sys with ESP32C3
 # See also https://github.com/ivmarkov/embuild/issues/16
-rustflags = ["-C", "default-linker-libraries"]
+#rustflags = ["-C", "default-linker-libraries","-C", "link-arg=-Tdefmt.x",]
+rustflags = ["-C", "default-linker-libraries","-C", "force-frame-pointers",]
 
 [unstable]
 

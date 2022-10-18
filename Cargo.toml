@@ -16,23 +16,22 @@ opt-level = "z"
 pio = ["esp-idf-sys/pio"]
 
 [dependencies]
-esp-idf-sys = { version = "0.31.9", features = ["binstart"] }
+esp-idf-sys = { version = "0.31.10", features = ["binstart"] }
 embedded-hal = { version = "0.2", feature = "unproven" }
 embedded-svc = { version = "0.23", git = "https://github.com/esp-rs/embedded-svc", features = [
     "nightly",
     "experimental",
-] }
+], rev = "75a762997f7a5e60c7504e56b289671fa3a6260a" }
 esp-idf-svc = { git = "https://github.com/esp-rs/esp-idf-svc", features = [
     "nightly",
     "experimental",
     "embassy-time-driver",
     "embassy-time-isr-queue",
-], rev = "34dfee2a4f08692f415e965e4cd117034e6be56e" }
+] }
 
 esp-idf-hal = { version = "0.39", git = "https://github.com/esp-rs/esp-idf-hal", features = [
     "edge-executor",
     "embassy-sync",
-    "embassy-time",
     "critical-section",
 ] }
 edge-executor = { git = "https://github.com/ivmarkov/edge-executor" }
@@ -49,9 +48,7 @@ embassy-time = { version = "0.1", git = "https://github.com/ivmarkov/embassy", f
 static_cell = { version = "1", git = "https://github.com/embassy-rs/static-cell" }
 heapless = "0.7.12"
 futures = { version = "0.3", features = ["async-await"] }
-
-#[patch.'https://github.com/esp-rs/esp-idf-svc']
-#esp-idf-svc = { path = "../esp-idf-svc" }
+log = "0.4"
 
 [build-dependencies]
 embuild = "0.30"
